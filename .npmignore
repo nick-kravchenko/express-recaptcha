@@ -1,0 +1,9 @@
+.gitignore
+.npmignore
+.travis.yml
+base.tsconfig.json
+mocha.opts
+src/
+test/
+example/
+node_modules/

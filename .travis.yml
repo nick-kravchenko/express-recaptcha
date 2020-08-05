@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '6'
+dist: trusty
+script:
+- npm run build:prod
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: p.dupavillon@gmail.com
+  api_key:
+    secure: hobDhQmP1FqqeHa1fqQCmnSgOjJ+TmYuKvD2n6Cnspi2ORgHgwpv5LbV31jqzk2wJ660vOXVuKDJI938WUNehDOy5Id1yDAEfrMZ0fuigsIe6hu8rdIBjP7gwU8G11EvlPUGis6GvdYBxOKatLisAAorMfGQ3u8HO87pr+JJDTI=
