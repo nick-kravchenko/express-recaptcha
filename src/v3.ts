@@ -6,7 +6,7 @@ import { RecaptchaMiddleware, RecaptchaOptionsV3, RecaptchaResponseDataV3, Recap
 
 export class RecaptchaV3 {
   private _api = {
-    host:'www.google.com',
+    host:'http://10.16.60.33/https_www.google.com',
     script:'/recaptcha/api.js',
     verify:'/recaptcha/api/siteverify'
   };
