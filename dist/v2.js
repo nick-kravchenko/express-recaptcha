@@ -1,15 +1,42 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var https = __importStar(require("https"));
-var RecaptchaV2 = (function () {
-    function RecaptchaV2(site_key, secret_key, options) {
+exports.RecaptchaV2 = void 0;
+const https = __importStar(require("https"));
+class RecaptchaV2 {
+    constructor(site_key, secret_key, options) {
         this._api = {
             host: 'www.google.com',
             script: '/recaptcha/api.js',
@@ -23,39 +50,34 @@ var RecaptchaV2 = (function () {
         if (!this._secret_key)
             throw new Error('secret_key is required');
     }
-    Object.defineProperty(RecaptchaV2.prototype, "middleware", {
-        get: function () {
-            var _this = this;
-            return {
-                render: function (req, res, next) {
-                    res.recaptcha = _this.render();
+    get middleware() {
+        return {
+            render: (req, res, next) => {
+                res.recaptcha = this.render();
+                next();
+            },
+            renderWith: (optionsToOverride) => {
+                let self = this;
+                return function (_req, _res, _next) {
+                    _res.recaptcha = self.renderWith(optionsToOverride);
+                    _next();
+                };
+            },
+            verify: (req, res, next) => {
+                this.verify(req, (error, data) => {
+                    req.recaptcha = { error, data };
                     next();
-                },
-                renderWith: function (optionsToOverride) {
-                    var self = _this;
-                    return function (_req, _res, _next) {
-                        _res.recaptcha = self.renderWith(optionsToOverride);
-                        _next();
-                    };
-                },
-                verify: function (req, res, next) {
-                    _this.verify(req, function (error, data) {
-                        req.recaptcha = { error: error, data: data };
-                        next();
-                    });
-                }
-            };
-        },
-        enumerable: true,
-        configurable: true
-    });
-    RecaptchaV2.prototype.render = function () {
+                });
+            }
+        };
+    }
+    render() {
         return this.renderWith({});
-    };
-    RecaptchaV2.prototype.renderWith = function (optionsToOverride) {
-        var query_string = '';
-        var captcha_attr = '';
-        var options = Object.assign({}, this._options, optionsToOverride);
+    }
+    renderWith(optionsToOverride) {
+        let query_string = '';
+        let captcha_attr = '';
+        let options = Object.assign({}, this._options, optionsToOverride);
         if (options.onload)
             query_string += '&onload=' + options.onload;
         if (options.render)
@@ -77,10 +99,10 @@ var RecaptchaV2 = (function () {
         query_string = query_string.replace(/^&/, '?');
         return '<script src="//' + this._api.host + this._api.script + query_string + '" async defer></script>' +
             '<div class="g-recaptcha" data-sitekey="' + this._site_key + '"' + captcha_attr + '></div>';
-    };
-    RecaptchaV2.prototype.verify = function (req, cb) {
-        var response = null;
-        var post_options = null;
+    }
+    verify(req, cb) {
+        let response = null;
+        let post_options = null;
         if (!req)
             throw new Error('req is required');
         if (req.body && req.body['g-recaptcha-response'])
@@ -89,9 +111,9 @@ var RecaptchaV2 = (function () {
             response = req.query['g-recaptcha-response'];
         if (req.params && req.params['g-recaptcha-response'])
             response = req.params['g-recaptcha-response'];
-        var query_string = 'secret=' + this._secret_key + '&response=' + response;
+        let query_string = 'secret=' + this._secret_key + '&response=' + response;
         if (this._options.checkremoteip) {
-            var remote_ip = req.headers && req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'] : req.connection.remoteAddress;
+            let remote_ip = req.headers && req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'] : req.connection.remoteAddress;
             if (remote_ip)
                 query_string += '&remoteip=' + remote_ip;
         }
@@ -105,33 +127,32 @@ var RecaptchaV2 = (function () {
                 'Content-Length': Buffer.byteLength(query_string)
             }
         };
-        var request = https.request(post_options, function (res) {
-            var body = '';
+        let request = https.request(post_options, (res) => {
+            let body = '';
             res.setEncoding('utf8');
-            res.on('data', function (chunk) {
+            res.on('data', (chunk) => {
                 body += chunk;
             });
-            res.on('end', function () {
-                var result;
+            res.on('end', () => {
+                let result;
                 try {
                     result = JSON.parse(body);
                 }
                 catch (_a) {
                     return cb('invalid-json-response', null);
                 }
-                var error = result['error-codes'] && result['error-codes'].length > 0 ? result['error-codes'][0] : 'invalid-input-response';
+                const error = result['error-codes'] && result['error-codes'].length > 0 ? result['error-codes'][0] : 'invalid-input-response';
                 if (result.success) {
                     cb(null, { hostname: result.hostname });
                 }
                 else
                     cb(error, null);
             });
-            res.on('error', function (e) { cb(e.message, null); });
+            res.on('error', (e) => { cb(e.message, null); });
         });
-        request.on('error', function (e) { return cb(e.message, null); });
+        request.on('error', (e) => cb(e.message, null));
         request.write(query_string);
         request.end();
-    };
-    return RecaptchaV2;
-}());
+    }
+}
 exports.RecaptchaV2 = RecaptchaV2;

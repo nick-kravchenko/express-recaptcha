@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as Https from 'https';
+import Https from 'https';
 import * as Sinon from 'sinon';
 import { PassThrough } from 'stream';
 

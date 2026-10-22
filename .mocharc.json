@@ -1,0 +1,9 @@
+{
+  "ui": "bdd",
+  "reporter": "spec",
+  "recursive": true,
+  "checkLeaks": true,
+  "require": "ts-node/register",
+  "extension": ["ts"],
+  "spec": "test/**/*.spec.ts"
+}

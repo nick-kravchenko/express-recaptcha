@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RecaptchaV3 = exports.RecaptchaV2 = void 0;
 var v2_1 = require("./v2");
-exports.RecaptchaV2 = v2_1.RecaptchaV2;
+Object.defineProperty(exports, "RecaptchaV2", { enumerable: true, get: function () { return v2_1.RecaptchaV2; } });
 var v3_1 = require("./v3");
-exports.RecaptchaV3 = v3_1.RecaptchaV3;
+Object.defineProperty(exports, "RecaptchaV3", { enumerable: true, get: function () { return v3_1.RecaptchaV3; } });

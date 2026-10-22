@@ -1,5 +1,0 @@
--u bdd
--R spec
---recursive
---check-leaks
---watch-extensions ts
