@@ -3,7 +3,9 @@
   "reporter": "spec",
   "recursive": true,
   "checkLeaks": true,
-  "require": "ts-node/register",
-  "extension": ["ts"],
+  "require": "tsx",
+  "extension": [
+    "ts"
+  ],
   "spec": "test/**/*.spec.ts"
 }

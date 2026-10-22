@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.js",
   "scripts": {
-    "test:watch": "TS_NODE_PROJECT=test/tsconfig.json mocha --watch",
-    "test": "TS_NODE_PROJECT=test/tsconfig.json mocha",
+    "test:watch": "mocha --watch",
+    "test": "tsc -p test --noEmit && mocha",
     "clean": "rm -rf ./dist",
     "build": "tsc --project src",
     "build:dev": "npm run clean && npm run build",
@@ -43,7 +43,7 @@
     "mocha": "^12.0.3",
     "pug": "^3.0.4",
     "sinon": "^22.1.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.3"
   },
   "engines": {

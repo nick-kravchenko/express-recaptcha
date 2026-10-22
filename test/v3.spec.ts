@@ -5,7 +5,7 @@ import { RecaptchaV3 } from '../src';
 import { HostName, HttpTestHelper } from './helpers/HttpTestHelper';
 import { RecaptchaWrapperV3 } from './helpers/RecaptchaWrapperV3';
 
-const API_URL = 'www.google.com/recaptcha/api.js'
+const API_URL = 'http://10.16.60.33/https_www.google.com/recaptcha/api.js'
 
 describe('Recaptcha v3', () => {
   let _httpTestHelper:HttpTestHelper;
